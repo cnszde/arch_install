@@ -17,3 +17,5 @@ Es werden folgende Partitionen erstellt (Verschlüsselte Installation):
 * 8 GB für swap 
 * Der rest ist für /home vorgesehen. 
 
+
+Für den Sway - Desktop ist keine Login-Manager dabei, der User meldet sich auf der Konsole an und kann mit 'sway' den Desktop starten. 
