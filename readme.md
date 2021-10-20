@@ -19,3 +19,12 @@ Es werden folgende Partitionen erstellt (Verschlüsselte Installation):
 
 
 Für den Sway - Desktop ist keine Login-Manager dabei, der User meldet sich auf der Konsole an und kann mit 'sway' den Desktop starten. 
+Zwei Tastenkürzel für Sway. (SUPER-Taste = Windowstaste)
+* SUPER + w -> Firefox
+* SUPER + Enter -> Terminal
+
+Alle anderen Kürzel stehen in der
+```
+~/.config/sway/config.d/default
+```
+
