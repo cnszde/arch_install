@@ -1,4 +1,9 @@
 #!/bin/bash
+#    version         ${arch_install.sh} (https://github.com/cnszde/arch_install.git) 0.0.2
+#    author          Christian Schnitz <cs@cschnitz.eu>
+#    copyright       Copyright (c) Christian Schnitz
+#    license         MIT License
+
 source ./functionen.sh
 
 # UEFI or BIOS? If the System a BIOS-System then break this scriptS
@@ -156,7 +161,7 @@ else
 fi
 clear
 
-echo "Die Installation ist abgeschlossen."
+echo "Die Installation ist nun abgeschlossen."
 while true; do
     read -r -p "Soll der Computer neu gestartet werden? [Y/n] " input
     case $input in

@@ -27,4 +27,3 @@ Alle anderen Kürzel stehen in der
 ```
 ~/.config/sway/config.d/default
 ```
-
