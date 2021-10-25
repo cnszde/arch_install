@@ -134,6 +134,16 @@ crypt_bootloader() {
 
 EOF
 }
+grub_crypt () {
+	arch-chroot /mnt /bin/bash <<EOF
+pacman -S install grub-efi-x86_64 efibootmgr 
+grub-install
+echo "GRUB_CMDLINE_LINUX to GRUB_CMDLINE_LINUX="cryptdevice=/dev/$hd2:luks:allow-discards" >> /etc/default/grub
+
+EOF
+}
+
+
 bootloader() {
     # Bootloader
     arch-chroot /mnt /bin/bash <<EOF
