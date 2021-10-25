@@ -87,7 +87,7 @@ no_lvm() {
 
 # Grundsytem installieren
 grundsystem() {
-    pacstrap /mnt base base-devel linux linux-firmware networkmanager intel-ucode dhclient lvm2 iwd vim zsh git grml-zsh-config
+    pacstrap /mnt base base-devel linux linux-firmware networkmanager intel-ucode amd-ucode dhclient lvm2 iwd vim zsh git grml-zsh-config
 }
 
 #fstab erstellen und locale einrichten
@@ -109,12 +109,12 @@ EOF
 }
 
 # mkinitcpio anpassen (verbesserungswürdig!)
-mkinitcpio() {
+bootctl_mkinitcpio() {
     sed -i "s/.*MODULES=().*/MODULES=(ext4 vmd )/g" /mnt/etc/mkinitcpio.conf
     sed -i "s/HOOKS=(.*)/HOOKS=(base udev block autodetect modconf keyboard keymap encrypt lvm2 filesystems fsck shutdown)/g" /mnt/etc/mkinitcpio.conf
 }
 
-crypt_bootloader() {
+bootctl_bootloader() {
     # Bootloader
     arch-chroot /mnt /bin/bash <<EOF
 
@@ -134,13 +134,20 @@ crypt_bootloader() {
 
 EOF
 }
-grub_crypt () {
+grub_mkinitcpio() {
+    sed -i "s/.*MODULES=().*/MODULES=(ext4 vmd)/g" /mnt/etc/mkinitcpio.conf
+    sed -i "s/HOOKS=(.*)/HOOKS=(base udev autodetect modconf block encrypt lvm2 filesystems keyboard fsck shutdow)/g" /mnt/etc/mkinitcpio.conf
+}
+
+grub_bootloader () {
 	arch-chroot /mnt /bin/bash <<EOF
-pacman -S install grub-efi-x86_64 efibootmgr 
-grub-install
-echo "GRUB_CMDLINE_LINUX to GRUB_CMDLINE_LINUX="cryptdevice=/dev/$hd2:luks:allow-discards" >> /etc/default/grub
-grub-mkconfig -o /boot/grub/grub.cfg
+    mkinitcpio -p linux
+    pacman -S install grub-efi-x86_64 efibootmgr
+    grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+    sed -e 's/GRUB_CMDLINE_LINUX_DEFAULT=.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptdevice=/dev/$hd2:lvm:allow-discards\"/g' /mnt/etc/default/grub 
+    grub-mkconfig -o /boot/grub/grub.cfg
 EOF
+
 }
 
 

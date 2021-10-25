@@ -89,15 +89,16 @@ if [ $crypt == "yes" ]; then
 
         case $input in
         [yY][eE][sS] | [yY])
-            # Dieses Zeug wird aus der functionen.sh geholt
             partition_lvm
             crypt
             lvm
             grundsystem
             fstab
             locale
-            mkinitcpio
-            crypt_bootloader
+            #grub_mkinitcpio # For Grub
+            bootctl_mkinitcpio
+            #grub_bootloader # For Grub
+            bootctl_bootloader
             service
             pw_root
             user
